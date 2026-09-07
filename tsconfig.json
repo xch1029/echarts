@@ -11,6 +11,12 @@
         // https://github.com/ezolenko/rollup-plugin-typescript2/issues/12#issuecomment-536173372
         "moduleResolution": "node",
 
+        // Keep the symlink itself (e.g. pnpm links `node_modules/zrender` into `.pnpm/...`)
+        // rather than the resolved real path, so that declaration emit can name types
+        // from dependencies (zrender) with portable module specifiers. Otherwise error
+        // TS2742 is thrown when building with pnpm's `node_modules` layout.
+        "preserveSymlinks": true,
+
         "declaration": true,
         "declarationMap": false,
 

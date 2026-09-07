@@ -88,6 +88,27 @@ const ssrClientTypeDir = nodePath.resolve(ecDir, 'ssr/client/types');
 const typesDir = nodePath.resolve(ecDir, 'types');
 const esmDir = 'lib';
 
+/**
+ * On Windows, renaming a directory tree that has just been written may transiently
+ * fail with EPERM/EACCES/EBUSY, typically when antivirus software or the file indexer
+ * is still holding handles on some of the freshly created files. Retry with backoff
+ * before giving up. Non-Windows platforms keep the original no-retry behavior.
+ */
+async function renameWithRetry(src, dest) {
+    const maxAttempts = process.platform === 'win32' ? 10 : 1;
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+        try {
+            return fs.renameSync(src, dest);
+        }
+        catch (e) {
+            if (attempt === maxAttempts || ['EPERM', 'EACCES', 'EBUSY'].indexOf(e.code) < 0) {
+                throw e;
+            }
+            await new Promise(resolve => setTimeout(resolve, 200 * attempt));
+        }
+    }
+}
+
 
 const compileWorkList = [
     {
@@ -116,11 +137,11 @@ const compileWorkList = [
             fsExtra.removeSync(nodePath.resolve(ecDir, 'index.simple.js'));
         },
         after: async function () {
-            fs.renameSync(nodePath.resolve(tmpDir, 'src/echarts.all.js'), nodePath.resolve(ecDir, 'index.js'));
-            fs.renameSync(nodePath.resolve(tmpDir, 'src/echarts.blank.js'), nodePath.resolve(ecDir, 'index.blank.js'));
-            fs.renameSync(nodePath.resolve(tmpDir, 'src/echarts.common.js'), nodePath.resolve(ecDir, 'index.common.js'));
-            fs.renameSync(nodePath.resolve(tmpDir, 'src/echarts.simple.js'), nodePath.resolve(ecDir, 'index.simple.js'));
-            fs.renameSync(nodePath.resolve(tmpDir, 'src'), nodePath.resolve(ecDir, esmDir));
+            await renameWithRetry(nodePath.resolve(tmpDir, 'src/echarts.all.js'), nodePath.resolve(ecDir, 'index.js'));
+            await renameWithRetry(nodePath.resolve(tmpDir, 'src/echarts.blank.js'), nodePath.resolve(ecDir, 'index.blank.js'));
+            await renameWithRetry(nodePath.resolve(tmpDir, 'src/echarts.common.js'), nodePath.resolve(ecDir, 'index.common.js'));
+            await renameWithRetry(nodePath.resolve(tmpDir, 'src/echarts.simple.js'), nodePath.resolve(ecDir, 'index.simple.js'));
+            await renameWithRetry(nodePath.resolve(tmpDir, 'src'), nodePath.resolve(ecDir, esmDir));
 
             transformRootFolderInEntry(nodePath.resolve(ecDir, 'index.js'), esmDir);
             transformRootFolderInEntry(nodePath.resolve(ecDir, 'index.blank.js'), esmDir);
