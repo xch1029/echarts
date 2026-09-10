@@ -1,0 +1,8 @@
+schema_version: 1
+module_path: extensions
+title: ECharts 扩展模块（百度地图与数据工具）
+scope:
+    - extension-src/
+source_files: []
+depends_on: []
+related_to: []

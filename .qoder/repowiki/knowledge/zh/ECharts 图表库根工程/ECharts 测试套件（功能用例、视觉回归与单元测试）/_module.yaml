@@ -1,0 +1,8 @@
+schema_version: 1
+module_path: tests
+title: ECharts 测试套件（功能用例、视觉回归与单元测试）
+scope:
+    - test/
+source_files: []
+depends_on: []
+related_to: []

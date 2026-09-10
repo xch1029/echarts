@@ -1,0 +1,29 @@
+schema_version: 1
+module_path: ""
+title: ECharts 图表库根工程
+scope:
+    - README.md
+    - CONTRIBUTING.md
+    - .gitignore
+    - package.json
+    - tsconfig.json
+    - .eslintrc-common.yaml
+    - .eslintrc-common-production.yaml
+    - .npmignore
+    - index.d.ts
+    - package.README.md
+    - AGENTS.md
+    - .asf.yaml
+    - .editorconfig
+    - .eslintignore
+    - .gitattributes
+    - .headerignore
+    - .jshintrc-dist
+    - .lgtm.yml
+    - KEYS
+    - LICENSE
+    - NOTICE
+    - pnpm-lock.yaml
+source_files: []
+depends_on: []
+related_to: []

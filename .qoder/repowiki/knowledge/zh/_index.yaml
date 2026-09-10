@@ -1,0 +1,67 @@
+# 知识卡导出索引文件
+schema_version: 1
+locale: zh-CN
+branch: master
+nodes_managed: true
+exported_at: "2026-09-10T04:49:54Z"
+modules:
+    "":
+        dir_name: ECharts 图表库根工程
+        title: ECharts 图表库根工程
+        scope:
+            - README.md
+            - CONTRIBUTING.md
+            - .gitignore
+            - package.json
+            - tsconfig.json
+            - .eslintrc-common.yaml
+            - .eslintrc-common-production.yaml
+            - .npmignore
+            - index.d.ts
+            - package.README.md
+            - AGENTS.md
+            - .asf.yaml
+            - .editorconfig
+            - .eslintignore
+            - .gitattributes
+            - .headerignore
+            - .jshintrc-dist
+            - .lgtm.yml
+            - KEYS
+            - LICENSE
+            - NOTICE
+            - pnpm-lock.yaml
+        source_files: []
+        children:
+            - extensions
+            - i18n
+            - tests
+        depends_on: []
+        related_to: []
+    extensions:
+        dir_name: ECharts 扩展模块（百度地图与数据工具）
+        title: ECharts 扩展模块（百度地图与数据工具）
+        scope:
+            - extension-src/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []
+    i18n:
+        dir_name: ECharts 多语言国际化资源包
+        title: ECharts 多语言国际化资源包
+        scope:
+            - i18n/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []
+    tests:
+        dir_name: ECharts 测试套件（功能用例、视觉回归与单元测试）
+        title: ECharts 测试套件（功能用例、视觉回归与单元测试）
+        scope:
+            - test/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []
